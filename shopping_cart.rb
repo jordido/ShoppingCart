@@ -12,15 +12,13 @@ class ShoppingCart
 	def add_discount
 		discount = 0
 		@item_details.each do |fruit, rest_of_data|
-			if @item_details[fruit]
-				dto_line = @item_details[fruit].discount(@item_details)
-				if dto_line != 0
-					print "discount: "
-					@item_details[fruit].print_name
-					puts discount
-				end
-				discount += dto_line
+			dto_line = @item_details[fruit].discount(@item_details)
+			if dto_line != 0
+				print "discount: "
+				@item_details[fruit].print_name
+				puts dto_line
 			end
+			discount += dto_line
 		end
 		@cart_cost -= discount.to_i
 	end

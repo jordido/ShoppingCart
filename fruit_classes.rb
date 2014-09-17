@@ -18,6 +18,10 @@ class ItemInfo
 		print @qty
 	end
 
+	def print_name
+		print self.class.name
+		print " => "
+	end
 end
 
 class Apple < ItemInfo
@@ -31,13 +35,9 @@ class Apple < ItemInfo
 	def discount(cart)
 		discount = 0
 		if cart[:apple].add >= 2
-			discount += price * (cart[:apple].add / 2)
+			discount = price * (cart[:apple].add / 2).floor
 		end
 		return discount
-	end
-	def print_name
-		print "Apples"
-		print " => "
 	end
 end
 
@@ -51,15 +51,10 @@ class Oranges < ItemInfo
 	def discount(cart)
 		discount = 0
 		if cart[:oranges].add >= 3
-			discount += price * (cart[:oranges].add / 3)
+			discount = price * (cart[:oranges].add / 3).floor
 		end
 		return discount
 	end
-	def print_name
-		print "Oranges"
-		print " => "
-	end
-
 end
 
 class Grapes < ItemInfo
@@ -68,17 +63,16 @@ class Grapes < ItemInfo
 	end
 	def discount(cart)
 		discount = 0
-		if cart[:grapes].add >= 4 && cart[:banana].add > 0
-			discount += price * (cart[:grapes].add / 4)
-			if discount > price * cart[:banana].add
-				discount = price * cart[:banana].add
+		grapes_qty = cart[:grapes].add
+		bananas_qty = cart[:banana].add
+		bananas_price = cart[:banana].price
+		if grapes_qty >= 4 && bananas_qty > 0
+			discount = bananas_price * (grapes_qty / 4).floor
+			if discount > bananas_price * bananas_qty
+				discount = bananas_price * bananas_qty
 			end
 		end
 		return discount
-	end
-	def print_name
-		print "Grapes"
-		print " => "
 	end
 end
 
@@ -92,10 +86,6 @@ class Banana < ItemInfo
 	def discount(cart="")
 		return 0
 	end
-	def print_name
-		print "Bananas"
-		print " => "
-	end
 end
 
 class Watermelon < ItemInfo
@@ -108,9 +98,5 @@ class Watermelon < ItemInfo
 	end
 	def discount(cart="")
 		return 0
-	end
-	def print_name
-		print "Watermelon"
-		print " => "
 	end
 end
